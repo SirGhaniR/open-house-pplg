@@ -11,8 +11,8 @@ app.use(express.static('public'));
 const CANVAS_W = 3000;
 const CANVAS_H = 2000;
 const MAX_FOOD = 400;
-const MAX_BOOST = 25;
-const MAX_MAGNET = 15; // Jumlah item magnet di arena
+const MAX_BOOST = 5;
+const MAX_MAGNET = 5; // Jumlah item magnet di arena
 
 let players = {};
 let foods = [];
@@ -107,7 +107,7 @@ setInterval(() => {
         // Efek Magnet Aktif: Menyedot makanan di sekitar
         if (p.magnetTimer > 0) {
             p.magnetTimer--;
-            let magnetRadius = p.radius + 300; // Jangkauan magnet 300px
+            let magnetRadius = p.radius + 50; // Jangkauan magnet 50px
             foods.forEach(f => {
                 let fDx = p.x - f.x;
                 let fDy = p.y - f.y;
@@ -132,7 +132,7 @@ setInterval(() => {
         }
 
         // System Level Up setiap kelipatan 10.000 Poin
-        let targetLevel = Math.floor(p.score / 3000) + 1;
+        let targetLevel = Math.floor(p.score / 5000) + 1;
         if (targetLevel > p.level) {
             p.level = targetLevel;
             p.radius = 20; // Ukuran diset ulang menjadi kecil kembali

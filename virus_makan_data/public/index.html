@@ -109,7 +109,7 @@
 <body>
     <div id="loginPanel">
         <h1 style="color:#38bdf8; margin-top:0;">🦠 Data Eater</h1>
-        <p style="font-size: 14px; color:#94a3b8;">Makan item ⚡ & 🧲! Capai 10.000 Poin untuk Level Up & Kecepatan Tambahan!</p>
+        <p style="font-size: 14px; color:#94a3b8;">Makan item ⚡ & 🧲! Capai 5.000 Poin untuk Level Up & Kecepatan Tambahan!</p>
         <input type="text" id="playerName" placeholder="Nama Kamu..." required>
         <button onclick="joinGame()">Mulai Main!</button>
     </div>
@@ -291,6 +291,7 @@
         function sendTarget(clientX, clientY) {
             const targetX = clientX + camX;
             const targetY = clientY + camY;
+            targetPoint = { x: targetX, y: targetY };
             socket.emit('move', { x: targetX, y: targetY });
         }
 
@@ -525,6 +526,12 @@
                 // Efek Glowing jika Speed Boost Aktif
                 if (p.speedBoostTimer > 0) {
                     ctx.save();
+                    ctx.shadowColor = '#facc15';
+                    ctx.shadowBlur = 20;
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fill();
                     ctx.restore();
                 } else {
                     ctx.fillStyle = p.color;
@@ -587,6 +594,10 @@
 
             ctx.restore();
 
+            if (me) {
+                drawMinimap();
+                drawLeaderboard(me);
+            }
 
             // Cek Trigger Suara dan Game Over
             if (me && !me.isGameOver) {
